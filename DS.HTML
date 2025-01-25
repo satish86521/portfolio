@@ -1,0 +1,1653 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contact</title>
+
+    <!-- font awesome cdn link  -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
+
+    <!-- custom css file link  -->
+    <link rel="stylesheet" href="css/style.css" />
+    <!-- Upper only navbar links start -->
+    <link rel="stylesheet" href="css/burger.css" />
+    <script src="burger.js"></script>
+
+    <!-- Upper only navbar links middel part -->
+  </head>
+
+  <body>
+    <pre>
+
+
+        
+MACHINE LEARNING
+
+P1 (simple linear regression)
+
+import numpy as np
+import matplotlib.pyplot as plt
+import pandas as pd
+dataset=pd.read_csv("/content/Salary_Data.csv")
+x=dataset.iloc[:, :-1].values
+y=dataset.iloc[:, -1].values
+print(x)
+print(y)
+from sklearn.model_selection import train_test_split
+x_train, x_test, y_train, y_test = train_test_split(x,y, test_size=1/3, random_state=0)
+print(x_train) 
+print(y_train)
+print(x_test)
+print(y_test)
+from sklearn.linear_model import LinearRegression
+regressor = LinearRegression()
+regressor.fit(x_train, y_train)
+y_pred = regressor.predict(x_test)
+plt.scatter(x_train, y_train,color='red')
+plt.plot(x_train,regressor.predict(x_train),color='blue')
+plt.title('Salary vs Experience (Training set)')
+plt.xlabel ('Year of Experiene')
+plt.ylabel ('Salary')
+plt.show()
+plt.scatter(x_test, y_test,color='red')
+plt.plot(x_test,regressor.predict(x_test),color='blue')
+plt.title('Salary vs Experience (Testing set)')
+plt.xlabel ('Year of Experiene')
+plt.ylabel ('Salary')
+plt.show()
+
+P2 (multiple linear regression)
+
+import numpy as np
+import matplotlib.pyplot as plt
+import pandas as pd
+dataset = pd.read_csv("50_Startups.csv")
+x=dataset.iloc[:, :-1].values
+y=dataset.iloc[:, -1].values
+print(x)
+print(y)
+from sklearn.compose import ColumnTransformer
+from sklearn.preprocessing import OneHotEncoder
+ct = ColumnTransformer(transformers=[('encoded',OneHotEncoder(), [3])],remainder='passthrough')
+x=np.array(ct.fit_transform(x))
+from sklearn.model_selection import train_test_split
+x_train, x_test, y_train, y_test = train_test_split(x,y, test_size=1/3, random_state=0)
+from sklearn.linear_model import LinearRegression
+regressor=LinearRegression()
+regressor.fit(x_train,y_train)
+y_pred = regressor.predict(x_test)
+np.set_printoptions(precision=2)
+print(np.concatenate((y_pred.reshape(len(y_pred),1), y_test.reshape(len(y_test),1)),1 ))
+ 
+P3 
+Logistic Regression on Iris Dataset
+import pandas as pd
+
+iris_data = pd.read_csv('/content/Iris .csv')
+
+#print(iris_data)
+#iris_data.sample(5)
+iris_data.head()
+
+iris_data.info()
+
+# Iris-setosa = 0 , Iris-versicolor = 1, Iris-virginica = 2
+
+from sklearn.preprocessing import LabelEncoder
+encoder = LabelEncoder()
+
+iris_data['Species'] = encoder.fit_transform(iris_data['Species'])
+iris_data.head(150)
+
+import matplotlib.pyplot as plt
+
+plt.pie(iris_data['Species'].value_counts(),labels=['Setosa','Versicolor','Virginica'],autopct='%0.2f')
+plt.show()
+x = iris_data.drop('Species',axis=1)
+y = iris_data['Species']
+print(x)
+print(y)
+from sklearn.model_selection import train_test_split
+
+x_train,x_test,y_train,y_test = train_test_split(x,y,test_size=0.2,random_state=2)
+from sklearn.linear_model import LogisticRegression
+
+model = LogisticRegression(max_iter = 1000)
+
+model.fit(x_train,y_train)
+pred_train = model.predict(x_train)
+
+from sklearn.metrics import confusion_matrix,accuracy_score
+accuracy_score(y_train,pred_train)
+pred_test = model.predict(x_test)
+accuracy_score(y_test,pred_test)
+confusion_matrix(y_test,pred_test)
+
+P4 Implement social media ads classification using support vector
+import numpy as np
+import matplotlib.pyplot as plt
+import pandas as pd
+dataset = pd.read_csv("/content/Social_Network_Ads.csv")
+
+x=dataset.iloc[:,:-1].values
+y=dataset.iloc[:,-1].values
+
+from sklearn.model_selection import train_test_split
+x_train, x_test ,y_train, y_test = train_test_split(x,y, test_size=0.25, random_state=0)
+
+print(x_train)
+
+print(y_train)
+print(y_test)
+
+from sklearn.preprocessing import StandardScaler
+sc = StandardScaler()
+x_train = sc.fit_transform(x_train)
+x_test =sc.transform(x_test)
+print(x_train)
+print(x_test)
+
+from sklearn.svm import SVC
+classifier =SVC(kernel="linear" ,random_state=0)
+classifier.fit(x_train,y_train)
+
+print(classifier.predict(sc.transform([[30,200000]])))
+
+y_pred = classifier.predict(x_test)
+print(np.concatenate((y_pred.reshape(len(y_pred)
+,1),y_test.reshape(len(y_test),1)),1))
+
+from sklearn.metrics import confusion_matrix, accuracy_score
+cm = confusion_matrix(y_test,y_pred)
+print(cm)
+accuracy_score(y_test,y_pred)
+ 
+P5 Implement social media ads classification using KNN
+import numpy as np
+import matplotlib.pyplot as plt
+import pandas as pd
+dataset = pd.read_csv("/content/Social_Network_Ads.csv")
+
+x=dataset.iloc[:,:-1].values
+y=dataset.iloc[:,-1].values
+from sklearn.model_selection import train_test_split
+x_train, x_test, y_train, y_test = train_test_split(x,y,test_size=0.25,random_state=0)
+print(x_train)
+print(x_test)
+print(y_train)
+print(y_test)
+Feature scaling
+
+from sklearn.preprocessing import StandardScaler
+sc = StandardScaler()
+x_train = sc.fit_transform(x_train)
+x_test = sc.transform(x_test)
+print(x_train)
+print(x_test)
+training the K-NN model on the training set
+
+from sklearn.neighbors import KNeighborsClassifier
+classifier = KNeighborsClassifier(n_neighbors=5,metric='minkowski',p=2)
+classifier.fit(x_train,y_train)
+**PRedicting a new result**
+print(classifier.predict(sc.transform([[40,200000]])))
+
+**Predicting the test set results**
+
+y_pred =classifier.predict(x_test)
+print(np.concatenate((y_pred.reshape(len(y_pred),1),y_test.reshape(len(y_test),1)),1))
+
+**Making The Confusion Matrix**
+
+from sklearn.metrics import confusion_matrix, accuracy_score
+cm = confusion_matrix(y_test,y_pred)
+print(cm)
+accuracy_score(y_test,y_pred)
+
+**Visualising the Training set Result**
+
+P6 K-Means
+
+import numpy as np
+import matplotlib.pyplot as plt
+import pandas as pd
+dataset = pd.read_csv('/content/Mall_Customers.csv')
+
+x = dataset.iloc[:, [3, 4]].values
+
+print(x)
+
+from sklearn.cluster import KMeans
+wcss = []
+for i in range(1, 11):
+ kmeans = KMeans(n_clusters = i, init = 'k-means++', random_state = 42)
+ kmeans.fit(x)
+ wcss.append(kmeans.inertia_)
+plt.plot(range(1, 11), wcss)
+plt.title('The Elbow Method')
+plt.xlabel('Number of clusters')
+plt.ylabel('WCSS')
+plt.show()
+from sklearn.cluster import KMeans
+kmeans = KMeans(n_clusters = 5, init = 'k-means++', random_state = 42)
+y_kmeans = kmeans.fit_predict(x)
+print(y_kmeans)
+plt.scatter(x[y_kmeans == 0,0], x[y_kmeans == 0,1], s = 100, c= 'red', label = 'Cluster 1')
+plt.scatter(x[y_kmeans == 1,0], x[y_kmeans == 1,1], s = 100, c= 'blue', label = 'Cluster 2')
+plt.scatter(x[y_kmeans == 2,0], x[y_kmeans == 2,1], s = 100, c= 'green', label = 'Cluster 3')
+plt.scatter(x[y_kmeans == 3,0], x[y_kmeans == 3,1], s = 100, c= 'cyan', label = 'Cluster 4')
+plt.scatter(x[y_kmeans == 4,0], x[y_kmeans == 4,1], s = 100, c= 'magenta', label = 'Cluster 5')
+plt.scatter(kmeans.cluster_centers_[:, 0], kmeans.cluster_centers_[:, 1], s = 300, c = 'yellow', label = 'Centroids')
+plt.title('Clusters of customers')
+plt.xlabel('Annual Income (k$)')
+plt.ylabel('Spending Score (1-100)')
+plt.legend()
+plt.show()
+
+P7 Hierarchical Clustering
+import numpy as np
+import matplotlib.pyplot as plt
+import pandas as pd
+dataset = pd.read_csv('/content/Mall_Customers.csv')
+x = dataset.iloc[:, [3, 4]].values
+print(x)
+
+import scipy.cluster.hierarchy as sch
+dendrogram = sch.dendrogram(sch.linkage(x, method = 'ward'))
+plt.title('Dendogram')
+plt.xlabel('Customers')
+plt.ylabel('Eucliden distances')
+plt.show()
+
+from sklearn.cluster import AgglomerativeClustering
+hc = AgglomerativeClustering(n_clusters = 5, affinity = 'euclidean', linkage = 'ward')
+y_hc = hc.fit_predict(x)
+print(y_hc)
+
+plt.scatter(x[y_hc == 0,0], x[y_hc == 0,1], s = 100, c= 'red', label = 'Cluster 1')
+plt.scatter(x[y_hc == 1,0], x[y_hc == 1,1], s = 100, c= 'blue', label = 'Cluster 2')
+plt.scatter(x[y_hc == 2,0], x[y_hc == 2,1], s = 100, c= 'green', label = 'Cluster 3')
+plt.scatter(x[y_hc == 3,0], x[y_hc == 3,1], s = 100, c= 'cyan', label = 'Cluster 4')
+plt.scatter(x[y_hc == 4,0], x[y_hc == 4,1], s = 100, c= 'magenta', label = 'Cluster 5')
+plt.title('Clusters of customers')
+plt.xlabel('Annual Income (k$)')
+plt.ylabel('Spending Score (1-100)')
+plt.legend()
+plt.show()
+
+P8 
+Write a program to generate a few activation function that are being used in neural network
+
+import numpy as np
+import matplotlib.pyplot as plt
+import numpy as np
+plt.style.use('seaborn')
+plt.figure(figsize=(8,4))
+def SigmoidBinary(t):
+   return 1/(1+np.exp(-t))
+t = np.linspace(-5, 5)
+plt.plot(t, SigmoidBinary(t))
+plt.title('Binary Sigmoid Activation Function')
+plt.show()
+
+
+plt.style.use('seaborn')
+plt.figure(figsize=(8,4))
+def HyperbolicTan(t):
+   return np.tanh(t)
+t = np.linspace(-5, 5)
+plt.plot(t, HyperbolicTan(t))
+plt.title('Hyperbolic Tan Activation Function')
+plt.show()
+
+
+
+plt.style.use('seaborn')
+plt.figure(figsize=(8,4))
+def RectifiedLinearUnit(t):
+   lst=[]
+   for i in t:
+       if i>=0:
+           lst.append(i)
+       else:
+           lst.append(0)
+   return lst
+arr = np.linspace(-5, 5)
+plt.plot(arr, RectifiedLinearUnit(arr))
+plt.title('Rectified Linear Unit Activation Function')
+plt.show()
+
+
+plt.style.use('seaborn')
+plt.figure(figsize=(8,4))
+
+def binaryStep(x):
+   lst=[]
+   for i in t:
+       if i>=0:
+           lst.append(1)
+       else:
+           lst.append(0)
+   return lst 
+
+x = np.linspace(-10, 10)
+plt.plot(x, binaryStep(x))
+plt.axis('tight')
+plt.title('Activation Function :binaryStep')
+plt.show()
+
+def linear(x):
+   ''' y = f(x) It returns the input as it is'''
+   return x
+
+x = np.linspace(-10, 10)
+plt.plot(x, linear(x))
+plt.axis('tight')
+plt.title('Activation Function :Linear')
+plt.show()
+
+
+import numpy as np
+import matplotlib.pyplot as plt
+import numpy as np
+plt.style.use('seaborn')
+plt.figure(figsize=(8,4))
+def softmax(t):
+   return np.exp(t) / np.sum(np.exp(t))
+t = np.linspace(-5, 5)
+plt.plot(t, softmax(t))
+plt.title('Softmax Activation Function')
+plt.show()
+
+
+
+P9 
+CREATE ONE DIMENSIONAL TENSOR
+
+import numpy as np
+
+tensor_id = np.array([1.3, 1, 4.0, 23.99])
+
+print(tensor_id)
+
+print(tensor_id[0])
+
+print(tensor_id[2])
+
+CREATE TWO DIMENSIONAL TENSOR
+
+import numpy as np
+
+tensor_2d = np.array([(1, 2, 3, 4), (4, 5, 6, 7), (8, 9, 10, 11), (12, 13, 14, 15)]
+print(tensor_2d)
+
+tensor_2d[3] [2]
+
+TENSOR HANDLING AND MANIPULATION
+import tensorflow as tf
+import numpy as np
+matrix1 = np.array([(2, 2, 2), (2, 2, 2), (2, 2, 2)], dtype = 'int32')
+matrix2 = np.array([(1, 1, 1), (1, 1, 1), (1, 1, 1)], dtype = 'int32')
+
+print(matrix1)
+print(matrix2)
+matrix1 = tf.constant(matrix1)
+matrix2 = tf.constant(matrix2)
+matrix_product = tf.matmul(matrix1, matrix2)
+matrix_sum = tf.add(matrix1, matrix2)
+matrix_sub = tf.subtract(matrix1, matrix2)
+matrix_div = tf.divide(matrix1, matrix2)
+matrix_3 = np.array([(2, 7, 2), (1, 4, 2), (9, 0, 2)], dtype = 'float32')
+print(matrix_3)
+print(matrix_product)
+print(matrix_sum)
+print(matrix_sub)
+print(matrix_div)
+
+
+#importing the library
+import tensorflow as tf
+
+#initializing the input tensor
+a = tf.constant([7, 8, 13, 11], dtype = tf.float64)
+b = tf.constant([2, 13, 14, 5], dtype = tf.float64)
+#printing the input tensor
+print('a:', a)
+print('b:', b)
+
+res = tf.math.less(x = a, y = b)
+
+print('Result:', res)
+
+P10
+Artificial Neural Network
+
+import numpy as np
+import pandas as pd
+import tensorflow as tf
+
+tf.__version__
+
+dataset = pd.read_csv('Churn_Modelling.csv')
+X = dataset.iloc[:, 3:-1].values
+y = dataset.iloc[:, -1].values
+print(X)
+
+print(y)
+
+
+from sklearn.preprocessing import LabelEncoder
+le = LabelEncoder()
+X[:, 2] = le.fit_transform(X[:, 2])
+print(X)
+
+
+from sklearn.compose import ColumnTransformer
+from sklearn.preprocessing import OneHotEncoder
+ct = ColumnTransformer(transformers=[('encoder', OneHotEncoder(), [1])], remainder='passthrough')
+X = np.array(ct.fit_transform(X))
+
+print(X)
+
+from sklearn.model_selection import train_test_split
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2, random_state = 0)
+
+from sklearn.preprocessing import StandardScaler
+sc = StandardScaler()
+X_train = sc.fit_transform(X_train)
+X_test = sc.transform(X_test)
+
+ann = tf.keras.models.Sequential()
+
+ann.add(tf.keras.layers.Dense(units=6, activation='relu'))
+
+ann.add(tf.keras.layers.Dense(units=6, activation='relu'))
+
+ann.add(tf.keras.layers.Dense(units=1, activation='sigmoid'))
+
+ann.compile(optimizer = 'adam', loss = 'binary_crossentropy', metrics = ['accuracy'])
+
+ann.fit(X_train, y_train, batch_size = 32, epochs = 100)
+
+Making the predictions and evaluating the model
+
+print(ann.predict(sc.transform([[1, 0, 0, 600, 1, 40, 3, 60000, 2, 1, 1, 50000]])) >0.5)
+
+y_pred = ann.predict(X_test)
+y_pred = (y_pred > 0.5)
+print(np.concatenate((y_pred.reshape(len(y_pred),1), y_test.reshape(len(y_test),1)),1)) 
+
+from sklearn.metrics import confusion_matrix, accuracy_score
+cm = confusion_matrix(y_test, y_pred)
+print(cm)
+accuracy_score(y_test, y_pred)
+
+
+DATA SCIENCE
+
+P1  (DATA HANDLING)
+**FDS Data Handling (Data Collection, Modelling, Compilation)**
+my_dict={'Name' : ["a","b","c","d","e","f","g"],
+        'Age' : [20,27,35,45,55,43,35],
+        'Destination' : ["VP","CEO","CFO","VP","VP","CEO","HD"]}
+
+import pandas as pd
+import numpy as np
+df=pd.DataFrame(my_dict)
+df
+df.to_csv('Csv example')
+df
+df_csv=pd.read_csv('Csv example')
+df_csv
+df.to_csv('Csv example',index=False)
+df_csv=pd.read_csv('Csv example')
+df_csv
+import pandas as pd
+Location = '/content/student-mat.csv'
+df = pd.read_csv(Location, header=None)
+df.head()
+import pandas as pd
+Location = '/content/student-mat.csv'
+# to add headers as we load the data ...
+df = pd.read_csv(Location, names=['RollNo', 'Names', 'Grades'])
+# to add headers to a dataframe
+df.columns = ['RollNo', 'Names', 'Grades']
+df.head()
+import pandas as pd
+names = ['Bob', 'Jessica', 'Mary', 'John', 'Mel']
+grades = [76,95,77,78,99]
+bsdegrees = [1,1,0,0,1]
+msdegrees = [2,1,0,0,0]
+phddegrees = [0,1,0,0,0]
+Degrees = zip(names,grades,bsdegrees,msdegrees,phddegrees)
+columns = ['Names', 'Grades', 'BS', 'MS', 'PhD']
+df = pd.DataFrame(data = Degrees, columns=columns)
+df
+import pandas as pd
+Location = '/content/grade data.xlsx'
+df = pd.read_excel(Location)
+
+# changing column names
+df.columns = ['first', 'last', 'sex', 'age', 'exer', 'hrs', 'grd', 'addr']
+df.head()
+
+pip install xlsxwriter
+import pandas as pd
+names = ['Bob', 'Jessica', 'Mary', 'John', 'Mel']
+grades = [76,95,77,78,99]
+GradeList = zip(names,grades)
+df = pd.DataFrame(data = GradeList, columns=['Names','Grades'])
+
+writer = pd.ExcelWriter('dataframe.xlsx', engine='xlsxwriter')
+df.to_excel(writer, sheet_name='Sheet1')
+writer.save()
+import sqlite3
+con = sqlite3.connect("/content/portal_mammals.sqlite")
+cur = con.cursor()
+
+for row in cur.execute('SELECT * FROM species;'):
+  print(row)
+
+con.close()
+# create a sql connection to our sqlite database
+con = sqlite3.connect("/content/portal_mammals.sqlite")
+
+cur = con.cursor()
+
+#return all results of query
+cur.execute('SELECT plot_id FROM plots WHERE plot_type="Control"')
+print(cur.fetchall())
+
+#return first result of query
+cur.execute('SELECT species FROM species WHERE taxa="Bird"')
+print(cur.fetchone())
+
+#Be sure to close the connection
+con.close()
+
+import pandas as pd
+import sqlite3
+
+#read sqlite query results into a pandas daaframe
+con = sqlite3.connect("/content/portal_mammals.sqlite")
+df = pd.read_sql_query("SELECT * from surveys", con)
+
+#verify that result of sql query is sorted in the dataframe
+print(df.head())
+con.close()
+Saving data to sql
+from pandas import DataFrame
+Cars={'Brand':['Honda Civic','Toyoto Corolla','Ford Focus','Audi A4'],
+      'Price':[22000,25000,27000,35000]
+     }
+df=DataFrame(Cars,columns=['Brand','Price'])
+print(df)
+import sqlite3
+conn = sqlite3.connect('TestDB2.db')
+c= conn.cursor()
+c.execute('CREATE TABLE CARS4(Brand text, Pricenumber)')
+conn.commit()
+df.to_sql('CARS4',conn,if_exists='replace',index=False)
+df
+c.execute('''SELECT Brand,max(Price) from CARS4''')
+
+df = DataFrame(c.fetchall(),columns=['Brand','Price'])
+df
+Example
+import pandas as pd
+import os
+import sqlite3 as lite
+from sqlalchemy import create_engine
+studentId=["rj101","rj150","rj134","rj70"]
+SName=["Saurabh","Giftson","Vikas","Radha"]
+LName=["Chavan","Paul","Bisoi","Rai"]
+Department=["Bms","Bcom","BscCS","BscIT"]
+Email=["100rabh@gmail.com","gift01@fmail.com","vik21@gmail.com","rad01@gmail.com"]
+studata= zip(studentId,SName,LName,Department,Email)
+df = pd.DataFrame(data =studata, columns=['studentID','SName','LName','Department','Email'])
+df
+df1 = df.to_csv('studentdata.csv',index=False,header=True)
+df1
+df2 = df.to_excel('studentdata.xlsx',index=False,header=True)
+df2
+db_filename = r'studentdata.db'
+con = lite.connect(db_filename)
+df.to_sql('student',con,schema=None,if_exists='replace',index=True,index_label=None,chunksize=None,dtype=None)
+con.close()
+
+db_file = r'studentdata.db'
+engine = create_engine(r"sqlite///{}".format(db_file))
+sql = 'SELECT * from student'
+
+studf = pd.read_sql(sql, engine)
+studf
+Data Processing
+
+import numpy as np
+import pandas as pd
+state=pd.read_csv("/content/uscrime.csv")
+state.head()
+def some_func(x):
+  return x*2
+state.apply(some_func) #update each entry of dataframe without any loop
+state.apply(lambda n: n*2) #lambda also works the same
+state.transform(func = lambda x : x * 10)
+#usinggroupby
+mean_purchase = state.groupby('State')["Murder"].mean().rename('USer_mean').reset_index()
+print(mean_purchase)
+mer = state.merge(mean_purchase)
+mer
+#checking for missing values
+print(state.isnull().sum())
+Example 2
+import pandas as pd
+import numpy as np
+cols = ['col0', 'col1', 'col2', 'col3', 'col4']
+rows = ['row0', 'row1', 'row2', 'row3', 'row4']
+data = np.random.randint(0, 100, size = (5, 5))
+df = pd.DataFrame(data, columns = cols, index = rows)
+df.head()
+df.iloc[4, 2]
+Dealing with 0 and NAN values NAN stands for not a number and is one of the common ways to represent the missing value in the data
+Dealing with 0 and NAN values NAN stands for not a number and is one of the common ways to represent the missing value in the data
+df.loc[:, df.all()]
+df.loc[:, df.any()]
+df.loc[:, df.isnull().any()]
+df.loc[:, df.notnull().all()]
+df.dropna(how = "all", axis = 0)
+df.fillna(df.sum())
+#demonstrate transformer function using pandas in python
+import pandas as pd
+import numpy as np
+import random
+data = pd.DataFrame({
+    'C' : [random.choice(('a', 'b', 'c')) for i in range(1000000)],
+    'A' : [random.randint(1, 10) for i in range(1000000)],
+    'B' : [random.randint(1, 10) for i in range(1000000)]
+})
+data
+v = data.groupby('C')["A"].mean
+v
+mean = data.groupby('C')["A"].mean().rename("D").reset_index()
+mean
+df_1 = data.merge(mean)
+df_1
+
+P2   (BASIC DATA VISUALIZATION)
+DataVisualization DS2.ipynb
+
+Automatically generated by Colaboratory.
+
+Original file is located at
+    https://colab.research.google.com/drive/1WrFFeaipCrnrRs_Le1BS8EDzpcMNWUDV
+
+Scatter plot
+
+A scatter plot is a set of points that represents the values obtained for two different variables plotted on a horizontal and vertical axes
+
+When to use scatter plots?
+
+Scatter plots are used to convey the relationship between two numerical variables
+
+Scatter plots are sometimes called correlation plots because they show how two variables are correlated
+"""
+
+import matplotlib.pyplot as plt
+#create a figure and axis
+fig, ax = plt.subplots()
+
+x = [2,4,6,6,9,2,7,2,6,1,8,4,5,9,1,2,3,7,5,8,1,3]
+y = [7,8,2,4,6,4,9,5,9,3,6,7,2,4,6,7,1,9,4,3,6,9]
+
+ax.scatter(x,y)
+
+import pandas as pd
+iris = pd.read_csv('/content/iris.csv', names=['sepal_length', 'sepal_width', 'petal_length','petal_width', 'class'])
+print(iris.head())
+
+import matplotlib.pyplot as plt
+#create a figure and axis
+fig, ax = plt.subplots()
+
+#scatter the sepal_length against the sepal_width
+ax.scatter(iris['sepal_length'], iris['sepal_width'])
+#set a title and labels
+ax.set_title('Iris Dataset')
+ax.set_xlabel('sepal_length')
+ax.set_ylabel('sepal_width')
+
+import pandas as pd
+cars_data=pd.read_csv('/content/Toyota.csv', index_col=0)
+cars_data.head()
+
+import matplotlib.pyplot as plt
+plt.scatter(cars_data['Age'],cars_data['Price'],c='red')
+plt.show()
+
+"""Line chart
+n Matplotlib we can create a line chart by calling the plot method. We can also plot multiple columns in one graph, by looping through the columns we want and plotting each column on the same axis.
+"""
+
+import pandas as pd
+import numpy as np
+from matplotlib import pyplot as plt
+x=range(1,6)
+y=np.random.randint(1,20,5)
+plt.plot(x,y)
+
+plt.xticks(x)
+plt.yticks(y)
+
+import matplotlib.pyplot as plt
+#create a figure and axis
+fig, ax = plt.subplots()
+
+x = [2,4,6,6,9,2,7,2,6,1,8,4,5,9,1,2,3,7,5,8,1,3]
+y = [7,8,2,4,6,4,9,5,9,3,6,7,2,4,6,7,1,9,4,3,6,9]
+
+ax.plot(x,y)
+
+import pandas as pd
+df = pd.DataFrame({
+    'name':['john','mary','peter','jeff','bill','lisa','jose'],
+    'age':[23,78,22,19,45,33,20],
+    'gender':['M','F','M','M','M','F','M'],
+    'state':['california','dc','california','dc','california','texas','texas'],
+    'num_children':[2,0,0,3,2,1,4],
+    'num_pets':[5,1,0,5,2,2,3]
+})
+#from pandas to plot multiple plots on some figure
+#gca stands for 'get current axis'
+ax = plt.gca()
+
+df.plot(kind='line',x='name',y='num_children',ax=ax)
+df.plot(kind='line',x='name',y='num_pets', color='red', ax=ax)
+
+import pandas as pd
+iris = pd.read_csv('/content/iris.csv', names=['sepal_length', 'sepal_width', 'petal_length','petal_width', 'class'])
+print(iris.head())
+
+#get columns to plot
+columns = iris.columns.drop(['class'])
+#create x data
+x_data = range(0,iris.shape[0])
+#create figure and axis
+fig,ax=plt.subplots()
+#plot each column
+for column in columns:
+  ax.plot(x_data, iris[column], label=column)
+#set title and legend
+ax.set_title('Iris Dataset')
+ax.legend()
+
+"""Histogram
+
+In Matplotlib  we can create a Histogram using the hist method. If we pass it categorical data like the points column from the wine-review dataset it will automatically calculate how often each class occurs.
+"""
+
+#create figure and axis
+fig, ax = plt.subplots()
+#plot histogram
+ax.hist(iris['sepal_length'])
+#set title and labels
+ax.set_title('iris')
+ax.set_xlabel('sepal_length')
+ax.set_ylabel('Frequency')
+
+"""Bar Chart
+A bar chart can be created using the bar method. The bar-chart isn’t automatically calculating the frequency of a category so we are going to use pandas value_counts function to do this. The bar-chart is useful for categorical data that doesn’t have a lot of different categories (less than 30) because else it can get quite messy.
+"""
+
+wine_reviews = pd.read_csv('/content/winemag-data-130k-v2.csv', index_col=0)
+wine_reviews.head()
+
+#Bar Chart
+#create a figure and axis
+fig, ax = plt.subplots()
+#count the occurrence of each class
+data = wine_reviews['points'].value_counts()
+#get x and y data
+points = data.index
+frequency = data.values
+#create bar chart
+ax.bar(points, frequency)
+#set title and labels
+ax.set_title('Wine Review Scores')
+ax.set_xlabel('Points')
+ax.set_ylabel('Frequency')
+
+wine_reviews['points'].value_counts().sort_index().plot.bar()
+
+wine_reviews.groupby("country").price.mean().sort_values(ascending=False)[:5].plot.bar()
+
+"""Adding more characteristics to bar graph"""
+
+import numpy as np
+import matplotlib.pyplot as plt
+objects = ('Python', 'C++', 'Java','Perl','Scala','Lisp')
+y_pos = np.arange(len(objects))
+performance = [10,8,6,4,2,1]
+# Bar Chart
+# X Axis positions as first parameter list, it can be floating point numbers also
+# Y Values as 2nd parameter list
+# Alpha is transparency,
+# Align can be center or edge
+# Color can be single value or a list of color codes, one for each bar.
+plt.bar(y_pos,performance, width=0.5,align='center',alpha=0.5,color=['r','r','g','g','b','b'])
+# To define labels for x axis values.
+plt.xticks(y_pos, objects)
+plt.ylabel('Usage')
+plt.xlabel('Programming Language')
+plt.title('Programming Language usage')
+
+# Importing the matplotlib library
+import matplotlib.pyplot as plt
+
+# Declaring the figure or the plot (y, x) or (width, height)
+plt.figure(figsize= (12,7))
+
+# Categorical data: Country names
+countries = ['USA', 'Brazil', 'Russia', 'Spain','UK','India']
+
+# Integer value interms of death counts
+totalDeaths = [112596, 37312, 5971, 27136, 40597, 7449]
+
+# Passing the parameters to the bar function, this is the main function which creates the bar plot
+plt.bar(countries,totalDeaths, width=0.9,align='center', color='cyan', edgecolor='red')
+
+# This is the location for the annotated text
+i = 1.0
+j= 2000
+
+# Annotating the bar plot with the values (total death count)
+for i in range(len(countries)):
+  plt.annotate(totalDeaths[i], (-0.1 +i, totalDeaths[i] + j))
+
+# Creating the legend of the bars in the plot
+plt.legend(labels = ['Total Deaths'])
+
+# Giving the title for the plot
+plt.title("Bar plot representing the total deaths by top 6 countries due to coronavirus")
+
+# Namimg the x and y axis
+plt.xlabel('Countries')
+plt.ylabel('Deaths')
+
+# Saving the plot as a 'png'
+plt.savefig('1BarPlot.png')
+
+# Displaying the bar plot
+plt.show()
+
+"""Horizontal bar plot
+
+It’s also really simple to make a horizontal bar-chart using the plot.barh() method. By adding one extra character ‘h’, we can align the bars horizontally. Also, we can represent the bars in two or more different colors, this will increase the readability of the plots.
+"""
+
+wine_reviews['points'].value_counts().sort_index().plot.barh()
+
+# Importing the matplotlib library
+import matplotlib.pyplot as plt
+
+# Declaring the figure or the plot (y, x) or (width, height)
+plt.figure(figsize=[14, 10])
+
+# Passing the parameters to the bar function, this is the main function which creates the bar plot
+# For creating the horizontal make sure that you append 'h' to the bar function name
+plt.barh(['USA', 'Brazil', 'Russia', 'Spain', 'UK'], [2026493, 710887, 476658, 288797, 287399], label = "Danger zone", color = 'r')
+plt.barh(['India', 'Italy', 'Peru', 'Germany', 'Iran'], [265928, 235278, 199696, 186205, 173832], label = "Not safe zone", color='g')
+
+# Creating the legend of the bars in the plot
+plt.legend()
+
+# Namimg the x and y axis
+plt.xlabel('Total cases')
+plt.ylabel('Countries')
+
+# Giving the tilte for the plo
+plt.title('Top ten countries most affected by\n coronavirus')
+
+# Saving the plot as a 'png'
+plt.savefig('2BarPlot.png')
+
+#displaying the bar plot
+plt.show()
+
+"""Stacking two bar plots on top of each other
+
+At times you might want to stack two or more bar plots on top of each other. With the help of this, you can differentiate two separate quantities visually. To do this just follow.
+"""
+
+import pandas as pd
+df= pd.DataFrame({'name':['john','mary','peter','jeff','bill','lisa','jose'],
+    'age':[23,78,22,19,45,33,20],
+    'gender':['M','F','M','M','M','F','M'],
+    'state':['california','dc','california','dc','california','texas','texas'],
+    'num_children':[2,0,0,3,2,1,4],
+    'num_pets':[5,1,0,5,2,2,3]})
+
+# From pandas to plot multiple plots on same figure
+df.groupby(['state', 'gender']).size().unstack().plot(kind='bar',stacked=True)
+
+df.groupby(['gender','state']).size().unstack().plot(kind='bar', stacked=True)
+
+# Importing the matplotlib library
+import matplotlib.pyplot as plt
+
+# Declaring the figure or the plot (y, x) or (width, height)
+plt.figure(figsize=[15,5])
+
+# Categorical data: Country names
+countries = ['USA', 'Brazil', 'Russia', 'Spain', 'UK', 'India']
+
+# Integer value interms of total cases
+totalCases = (2026493, 710887, 476658, 288797, 287399, 265928)
+
+# Integer value interms of death counts
+totalDeaths = (113055, 37312, 5971, 27136, 40597, 7473)
+
+# Plotting both the total death and the total cases in a single plot. Formula total cases - total deaths
+for i in range(len(countries)):
+  plt.bar(countries[i], totalDeaths[i], bottom= totalCases[i] - totalDeaths[i], color='black')
+  plt.bar(countries[i], totalCases[i] - totalDeaths[i], color='red')
+
+# Creating the legend of the bars in the plot
+plt.legend(labels = ['Total Deaths', 'Total Cases'])
+
+# Giving the tilte for the plot
+plt.title("Bar plot representing the total deaths and total cases country wise")
+
+#Naming the x and y axis
+plt.xlabel('Countries')
+plt.ylabel('Cases')
+
+# Saving the plot as a 'png'
+plt.savefig('3BarPlot.png')
+
+# Displaying the bar plot
+plt.show()
+
+"""Plotting two or bar plot next to another (Grouping)
+
+Often many-a-times you might want to group two or more plots just to represent two or more different quantities or whatever. Also in the below code, you can learn to override the name of the x-axis with the name of your choice.
+"""
+
+import pandas as pd
+from matplotlib import pyplot as plt
+
+Data = {'Country': ['USA','Canada','Germany','UK','France'],
+        'GDP_Per_Capita': [45000,42000,52000,49000,47000],
+        'Income_Per_Capita': [4000,5000,7000,55000,60000]}
+
+df = pd.DataFrame(Data)
+# Multiple metrics in same chart
+df.plot(x='Country', y=['GDP_Per_Capita', 'Income_Per_Capita'], kind = 'bar')
+
+# Importing the matplotlib library
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Declaring the figure or the plot (y, x) or (width, height)
+plt.figure(figsize=[15, 10])
+
+# Data to be plotted
+totalDeath = [113055, 37312, 5971, 7473, 33964]
+totalRecovery = [773480, 325602, 230688, 129095, 166584]
+activeCases = [1139958, 347973, 239999, 129360, 34730]
+country = ['USA', 'Brazil', 'Russia', 'India', 'Italy']
+
+# Using numpy to group 3 different data with bars
+x=np.arange(len(totalDeath))
+
+# Passing the parameters to the bar function, this is the main function which creates the bar plot
+# Using X now to align the bars side by side
+plt.bar(x, totalDeath, color = 'black', width=0.25)
+plt.bar(x+0.25, totalRecovery, color='g', width=0.25)
+plt.bar(x+0.5, activeCases, color='b', width=0.25)
+
+# Creating the legend of the bars in the plot
+plt.legend(['Total Deaths', 'Total Recovery', 'Active Cases'])
+
+# Overiding the x axis with the country names
+plt.xticks([i+ 0.25 for i in range(5)], country)
+
+# Giving the tilte for the plot
+plt.title("Bar plot representing the total deaths, total recovered cases and active cases country wise")
+
+#Namimg the x and y axis
+plt.xlabel('Countries')
+plt.ylabel('Cases')
+
+# Saving the plot as a 'png'
+plt.savefig('4BarPlot.png')
+
+#displaying the bar plot
+plt.show()
+
+"""Pie chart
+A pie chart is a type of data visualization that is used to illustrate numerical proportions in data
+"""
+
+# Data Frame plotting
+from pandas import DataFrame
+import matplotlib.pyplot as plt
+
+Data = {'Tasks': [300,500,700],
+       'Task Type' : ['Tasks Pending','Tasks Ongoing','Tasks Completed']}
+
+df = DataFrame(Data)
+df.set_index('Task Type', inplace= True)
+
+# autopct has extra % at the end as escape, as % is interpreted as formatting string begin by default.
+# Only pie chart needs labels to be data frame index
+df.plot.pie(y='Tasks', figsize=(10,10), autopct="%1.1f%%", startangle=90)
+
+"""We will plot this data on a pie chart with Matplotlib's ax.pie() method. The pie piece labels are defined as a list of strings, and the pie piece sizes are defined as a list of integers. The code section below builds a pie chart with four pie pieces, each pie piece labeled with a relative size auto-calculated to the nearest 10th of a percent."""
+
+# Commented out IPython magic to ensure Python compatibility.
+import numpy as np
+import matplotlib.pyplot as plt
+# if using a Jupyter notebook, include:
+# %matplotlib inline
+
+# Pie chart, where the slices will be ordered and plotted counter-clockwise:
+labels = ['Civil', 'Electrical', 'Mechanical', 'Chemical']
+sizes = [15, 30, 45, 10]
+
+# Explode out the 'Chemical' pie piece by offsetting it a greater amount
+explode = (0.1,0.1,0.1,0.4)
+
+fig, ax= plt.subplots()
+ax.pie(sizes, explode= explode, labels=labels, autopct='%1.1f%%', shadow= True, startangle=90)
+ax.axis('equal') #Equal aspect ratio ensures the pie chart is circular.
+ax.set_title('Engineering Disciplines')
+
+plt.show()
+
+"""Subplots"""
+
+plt.figure(figsize=(20,10))
+plt.subplot(2,2,1)
+plt.bar(range(1,6), np.random.randint(1,20,5))
+plt.title("2,2,1")
+plt.subplot(2,2,2)
+plt.bar(range(1,6), np.random.randint(1,20,5))
+plt.title("2,2,2")
+plt.subplot(2,2,3)
+# s is the size of dot
+plt.scatter(range(1,6), np.random.randint(1,20,5), s=100, color="r")
+plt.title("2,2,3")
+plt.subplot(2,2,4)
+plt.plot(range(1,6), np.random.randint(1,20,5), marker='o', color='g', linestyle='--')
+plt.title("2,2,4")
+
+plt.bar(range(1,6), np.random.randint(1,20,5), width=0.5)
+plt.scatter(range(1,6), np.random.randint(1,20,5), s=200, color="r")
+plt.plot(range(1,6), np.random.randint(1,20,5), marker='o', color='g', linestyle='--')
+
+P3
+ADVANCE DATA VISUALIZATION
+
+Seaborn Seaborn is a Python data visualization library based on matplotlib • It provides a high level interface for drawing attractive and informative statistical graphics
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+import os
+cars_data=pd.read_csv('Toyota.csv',index_col=0,na_values=["??","????"])
+cars_data.size
+cars_data.dropna(axis=0,inplace=True)
+cars_data.size
+cars_data=pd.read_csv('Toyota.csv')
+cars_data.head()
+cars_data=pd.read_csv('Toyota.csv',index_col=0)
+cars_data.head()
+Scatter plot Scatter plot of Price vs Age with default arguments
+sns.set(style="darkgrid")
+sns.regplot(x=cars_data['Age'],y=cars_data['Price'])
+#Scatter plot of Price vs Age without the regression fit line
+sns.regplot(x=cars_data['Age'],y=cars_data['Price'],fit_reg=False)
+#Scatter plot of Price vs Age by customizing the appearance of markers
+sns.regplot(x=cars_data['Age'], y=cars_data['Price'], marker="*", fit_reg=False)
+# Scatter plot of Price vs Age by FuelType
+
+#Using hue parameter, including another variable to show the fuel types categories with different colors
+
+sns.lmplot(x='Age', y='Price', data=cars_data, fit_reg=False, hue='FuelType', legend=True, palette="Set1")
+Histogram¶ Histogram with default kernel density estimate
+sns.distplot(cars_data['Age'])
+#Histogram without kernel density estimate
+sns.distplot(cars_data['Age'],kde=False)
+#Histogram with fixed no. of bins
+sns.distplot(cars_data['Age'],kde=False, bins=5)
+Bar plot Frequency distribution of fuel type of the cars
+sns.countplot(x="FuelType", data=cars_data)
+###Grouped bar plot
+#Grouped bar plot of FuelType and Automatic
+
+sns.countplot(x="FuelType", data=cars_data, hue="Automatic")
+pd.crosstab(index=cars_data['Automatic'], columns=cars_data['FuelType'],dropna=True)
+Box and whiskers plot  Box and whiskers plot for numerical vs categorical variable
+
+A Box Plot is also known as Whisker plot is created to display the summary of the set of data values having properties like minimum, first quartile, median, third quartile and maximum. In the box plot, a box is created from the first quartile to the third quartile, a vertical line is also there which goes through the box at the median. Here x-axis denotes the data to be plotted while the y-axis shows the frequency distribution.
+
+ Price of the cars for various fuel types
+sns.boxplot(x=cars_data['FuelType'],y=cars_data["Price"])
+Grouped box and whiskers plot  Grouped box and whiskers plot of Price vs FuelType and Automatic
+sns.boxplot(x="FuelType", y=cars_data["Price"],hue="Automatic",data=cars_data)
+Box whiskers plot and Histogram
+
+ Let’s plot box whiskers plot and histogram on the same window
+
+ Split the plotting window into 2 parts
+f,(ax_box,ax_hist)=plt.subplots(2,gridspec_kw={"height_ratios": (.15, .85)})
+Now, add create two plots
+f,(ax_box,ax_hist)=plt.subplots(2,gridspec_kw={"height_ratios": (.15, .85)})
+sns.boxplot(cars_data['Price'],ax=ax_box)
+sns.distplot(cars_data['Price'],ax=ax_hist,kde=False)
+Pairwise plots  It is used to plot pairwise relationships in a dataset
+
+ Creates scatterplots for joint relationships and histograms for univariate distributions
+sns.pairplot(cars_data,kind="scatter",hue="FuelType",diag_kws={'bw': 0.1})
+plt.show()
+Heatmap Heatmap is defined as a graphical representation of data using colors to visualize the value of the matrix.
+import numpy as np
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+import os
+data=np.random.randint(1,100,size=(10,10))
+print("The data to be plotted: \n")
+print(data)
+#Plotting Heatmap
+hm=sns.heatmap(data=data)
+plt.show()
+If we set the vmin value to 30 and the vmax value to 70, then only the cells with values between 30 and 70 will be displayed. This is called anchoring the colormap.
+hm = sns.heatmap(data=data,
+                vmin='30',
+                vmax='70')
+plt.show()
+Choosing the colormap
+
+In this, we will be looking at the cmap parameter. Matplotlib provides us with multiple colormaps, you can look at all of them here. Centering the cmap to 0 by passing the center parameter as 0.
+# setting the parameter values
+cmap = "tab20"
+center = 0
+
+# setting the parameter values
+annot = True
+
+# plotting the heatmap
+hm = sns.heatmap(data=data, cmap=cmap, annot=annot)
+# displaying the plotted heatmap
+plt.show()
+
+P4 (PROBABILITY)
+"""Probability DS4.ipynb
+
+Automatically generated by Colaboratory.
+
+Original file is located at
+    https://colab.research.google.com/drive/16wP-XRAlAXp8gohciw48qPoAWjJ9_Nxu
+
+Definition : Probability is a measure of the likelihood of an event to occur. Many events cannot be predicted with total certainty. We can predict only the chance of an event to occur i.e. how likely they are to happen, using it. Probability can range in from 0 to 1, where 0 means the event to be an impossible one and 1 indicates a certain event.The probability of all the events in a sample space adds up to 1.
+
+Formula for Probability
+
+The probability formula is defined as the possibility of an event to happen is equal to the ratio of the number of favourable outcomes and the total number of outcomes.
+
+Probability of event to happen P(E) = Number of favourable outcomes/Total Number of outcomes
+"""
+
+#Eg 1
+#probability of getting 3 when a die is rolled
+ns =6 #n(S)= {1,2,3,4,5,6}
+na =1 #n(A) = {3}
+pa=na/ns #P(A)
+print("probability of getting 3 is:", pa)
+
+#Eg 2
+#probability  of atleast getting one head when a coin is tossed thrice
+ns=8 #n(S)= {HHH,HHT,HTH,THH,TTH,THT,HTT,TTT}
+na = 7 #n(A) = {HHH, HHT, HTH, THH, TTH, THT, HTT}
+pa= na/ns #P(A)
+print("probability of getting atleast one head is:",pa)
+
+# A glass jar contains 5 red, 3 blue and 2 green jelly beans. If a jelly bean is chosen at random from the jar,
+#  mwhat is the probability that it is not blue?
+ns = 10 #n(S) = {5red,3blue,2green}
+na= 7 #n(A) = {5red, 2green}
+pa=na/ns #P(A)
+print("probability of getting not blue jellybean is:", pa)
+
+"""
+Independent and Dependent Events
+
+If the occurrence of any event is completely unaffected by the occurrence of any other event, such events are known as an independent event in probability and the events which are affected by other events are known as dependent events."""
+
+#Eg 1
+# If the probability that person A will be alive in 20 years
+#is 0.7 and the probability that person B will be alive in
+# 20 years is 0.5, what is the probability that they will
+#both be alive in 20 years?
+
+#These are independent events, so
+P= 0.7*0.5
+print("probabilty that they will be alive after 20 years is:",P)
+
+def event_probability(n,s):
+  return n/s
+
+#A fair die is tossed twice. Find the probability of getting a 4 or 5 on the first toss and a 1,2, or 3 in the second toss.
+pa = event_probability(2,6) # probability of getting a 4 or 5 on the first toss
+pb= event_probability(3,6) # probability of getting 1,2,3 in second toss
+P=pa*pb
+print("probabilityof getting  a 4 or 5 on the first toss and a 1,2 or 3 in the second toss:", P)
+
+# A bag contains 5 white marbles, 3 black marbles and 2 green marbles. In each draw, a marble is drawn from the bag
+# and not replaced. In three draws, find the probability of obtaining white, black and green in that order.
+pw= event_probability(5,10)
+pb= event_probability(3,9)
+pg= event_probability(2,8)
+print("the probability of obtaining white, black and green in that order is ",(pw*pb*pg))
+
+# Sample Space
+cards = 52
+
+# Calculate the probability of drawing a heart or a club
+hearts= 13
+clubs =13
+heart_or_club= event_probability(hearts, cards) + event_probability(clubs, cards)
+print(heart_or_club)
+
+# Calculate the probability of drawing an ace, king, or a queen
+aces=4
+kings=4
+queens=4
+ace_king_or_queen= event_probability(aces, cards) + event_probability(kings, cards) +event_probability(queens, cards)
+
+print(heart_or_club)
+print(ace_king_or_queen)
+
+# Calculate the probability of drawing a heart or an ace
+hearts = 13
+aces = 4
+ace_of_hearts = 1
+heart_or_ace = event_probability(hearts, cards) + event_probability(aces, cards) - event_probability(ace_of_hearts, cards)
+print(round(heart_or_ace, 1))
+
+"""
+Complementary Events
+
+For any event E1 there exists another event E1‘ which represents the remaining elements of the sample space S.
+
+E1 = S − E1‘
+
+If a dice is rolled then the sample space S is given as S = {1 , 2 , 3 , 4 , 5 , 6 }. If event E1 represents all the outcomes which is greater than 4, then E1 = {5, 6} and E1‘ = {1, 2, 3, 4}.
+
+Thus E1‘ is the complement of the event E1.
+
+Similarly, the complement of E1, E2, E3……….En will be represented as E1‘, E2‘, E3‘……….En‘
+
+"""
+
+#eg 1
+#probabiltiy of not getting 5 when a fair die is rolled
+ns = 6 #n(S) = {1,2,3,4,5,6}
+na = 1 #n(A) = {5}
+pa = na/ns # P(A)
+print("probabilty of not getting 5 is:",1-pa)
+
+"""
+Conditional Probability
+
+The formula for conditional probability is
+
+    P(A|B) = P(A OR B) / P(B).
+
+The parts: P(A|B) = probability of A occurring, given B occurs P(A â© B) = probability of both A and B occurring P(B) = probability of B occurring
+
+Calculate the probability a student gets an A (80%+) in math, given they miss 10 or more classes.
+"""
+
+import pandas as pd
+import numpy as np
+df = pd.read_csv('/content/student-mat.csv')
+df.head(3)
+
+len(df)
+
+"""
+
+We are only concerned with the columns, absences (number of absences), and G3 (final grade from 0 to 20).
+
+Let us create a couple new boolean columns based on these columns to make our lives easier.
+
+Add a boolean column called grade_A noting if a student achieved 80% or higher as a final score. Original values are on a 0 to 20 scale so we multiply by 5.
+"""
+
+df['grade_A'] = np.where(df['G3']*5 >= 80, 1, 0)
+
+"""Make another boolean column called high_absenses with a value of 1 if a student missed 10 or more classes."""
+
+df['high_absenses'] = np.where(df['absences'] >= 10, 1, 0)
+
+"""Add one more column to make building a pivot table easier"""
+
+df['count'] = 1
+
+"""
+
+And drop all columns we dont care about.
+"""
+
+df = df[['grade_A','high_absenses','count']]
+df.head()
+
+"""Now we will create a pivot table from this."""
+
+final= pd.pivot_table(
+    df,
+    values='count',
+    index=['grade_A'],
+    columns=['high_absenses'],
+    aggfunc=np.size,
+    fill_value=0
+)
+
+print(final)
+
+"""
+
+We now have all the data we need to do our calculation. Lets start by calculating each individual part in the formula.
+
+In our case: P(A) is the probability of a grade of 80% or greater. P(B) is the probability of missing 10 or more classes. P(A|B) is the probability of a 80%+ grade, given missing 10 or more classes.
+
+Calculations of parts: P(A) = (35 + 5) / (35 + 5 + 277 + 78) = 0.10126582278481013 P(B) = (78 + 5) / (35 + 5 + 277 + 78) = 0.21012658227848102 P(A OR B) = 5 / (35 + 5 + 277 + 78) = 0.012658227848101266
+
+And per the formula, P(A|B) = P(A Or B) / P(B), put it together.
+
+P(A|B) = 0.012658227848101266/ 0.21012658227848102= 0.06
+
+There we have it. The probability of getting at least an 80% final grade, given missing 10 or more classes is 6%. Conclusion
+
+While the learning from our specific example is clear - go to class if you want good grades
+"""
+
+P5 (DISCRETE DISTRIBUTION)
+# for inline plots in jupyter
+%matplotlib inline
+# import matplotlib
+import matplotlib.pyplot as plt
+# for latex equations
+from IPython.display import Math, Latex
+# for displaying images
+from IPython.core.display import Image
+import numpy as np
+# import seaborn
+import seaborn as sns
+# settings for seaborn plotting style
+sns.set(color_codes=True)
+# settings for seaborn plot sizes
+sns.set(rc={'figure.figsize':(5,5)})
+Bernoulli Distribution
+from scipy.stats import bernoulli
+data_bern = bernoulli.rvs(size=10000,p=0.6)
+ax= sns.distplot(data_bern,
+                 kde=False,
+                 color="skyblue",
+                 hist_kws={"linewidth": 15,'alpha':1})
+ax.set(xlabel='Bernoulli Distribution', ylabel='Frequency')
+BINOMINAL DISTRIBUTION
+from scipy.stats import binom
+data_binom = binom.rvs(n=10,p=0.8,size=10000)
+ax = sns.distplot(data_binom,
+                  kde=False,
+                  color='skyblue',
+                  hist_kws={"linewidth": 15,'alpha':1})
+ax.set(xlabel='Binomial Distribution', ylabel='Frequency')
+Poisson Distribution¶
+Poisson random variable is typically used to model the number of times an event happened in a time interval
+from scipy.stats import poisson
+data_poisson = poisson.rvs(mu=3, size=10000)
+You can generate a poisson distributed discrete random variable using scipy.stats module's poisson.rvs() method which takes μ as a shape parameter and is nothing but the λ in the equation. To shift distribution use the loc parameter. size decides the number of random variates in the distribution. If you want to maintain reproducibility, include a random_state argument assigned to a number.
+ax = sns.distplot(data_poisson,
+                  bins=30,
+                  kde=False,
+                  color='skyblue',
+                  hist_kws={"linewidth": 15,'alpha':1})
+ax.set(xlabel='Poisson Distribution', ylabel='Frequency')
+
+P6 (CONTINUOUS DISTRIBUTION)
+"""P5DS.ipynb
+
+Automatically generated by Colaboratory.
+
+Original file is located at
+    https://colab.research.google.com/drive/1YQ25R_0yiWpWoN5e0BvSMZBwWRs0DH1h
+
+CONTINOUS DISTRIBUTION
+"""
+
+# Commented out IPython magic to ensure Python compatibility.
+# for inline plots in jupyter
+# %matplotlib inline
+# import matplotlib
+import matplotlib.pyplot as plt
+# for latex equations
+from IPython.display import Math, Latex
+# for displaying images
+from IPython.core.display import Image
+import numpy as np
+
+# import seaborn
+import seaborn as sns
+# settings for seaborn plotting style
+sns.set(color_codes=True)
+# settings for seaborn plot sizes
+sns.set(rc={'figure.figsize':(5,5)})
+
+"""UNIFORM DISTRIBUTION"""
+
+# import uniform distribution
+from scipy.stats import uniform
+
+# random numbers from uniform distribution
+n = 10000
+start = 10
+width = 20
+data_uniform = uniform.rvs(size=n, loc = start, scale=width)
+
+ax = sns.distplot(data_uniform,
+                  bins=100,
+                  kde=True,
+                  color='skyblue',
+                  hist_kws={"linewidth": 15,'alpha':1})
+ax.set(xlabel='Uniform Distribution ', ylabel='Frequency')
+
+"""NORMAL DISTRIBUTION"""
+
+from scipy.stats import norm
+# generate random numbers from N(0,1)
+data_normal = norm.rvs(size=10000,loc=0,scale=1)
+
+ax = sns.distplot(data_normal,
+                  bins=100,
+                  kde=True,
+                  color='skyblue',
+                  hist_kws={"linewidth": 15,'alpha':1})
+ax.set(xlabel='Normal Distribution', ylabel='Frequency')
+
+"""Exponential Distribution"""
+
+from scipy.stats import expon
+data_expon = expon.rvs(scale=1,loc=0,size=1000)
+
+ax = sns.distplot(data_expon,
+                  kde=True,
+                  bins=100,
+                  color='skyblue',
+                  hist_kws={"linewidth": 15,'alpha':1})
+ax.set(xlabel='Exponential Distribution', ylabel='Frequency')
+
+"""Chi Square Distribution"""
+
+from numpy import random
+
+x = random.chisquare(df=2, size=(2, 3))
+
+print(x)
+
+from numpy import random
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+sns.distplot(random.chisquare(df=1, size=1000), hist=False)
+
+plt.show()
+
+"""Weibull Distribution"""
+
+a = 5. # shape
+
+s = np.random.weibull(a, 1000)
+
+#Display the histogram of the samples, along with the probability density function:
+import matplotlib.pyplot as plt
+
+x = np.arange(1,100.)/50.
+
+def weib(x,n,a):
+
+    return (a / n) * (x / n)**(a - 1) * np.exp(-(x / n)**a)
+
+count, bins, ignored = plt.hist(np.random.weibull(5.,1000))
+
+x = np.arange(1,100.)/50.
+
+scale = count.max()/weib(x, 1., 5.).max()
+
+plt.plot(x, weib(x, 1., 5.)*scale)
+
+plt.show()
+
+P7 (DESCRIPTIVE STATISTICS)
+
+"P7DS_Descriptive Statistics.ipynb
+
+Automatically generated by Colaboratory.
+
+Original file is located at
+    https://colab.research.google.com/drive/1G0j35gBYYULM6nWQF2ZoCD0an4zE73U0
+"""
+
+import pandas as pd
+
+df=pd.read_csv('stats.csv')
+
+df
+
+"""Measure of Central Tendancy"""
+
+# Mean Salary
+mean1=df['Salary'].mean()
+mean1
+
+#Sum of Salaries
+sum1=df['Salary'].sum()
+sum1
+
+#Maximum Salary
+max1=df['Salary'].max()
+max1
+
+#Minimum Salary
+min1=df['Salary'].min()
+min1
+
+#Total count
+
+count1=df['Salary'].count()
+count1
+
+#Median
+median=df['Salary'].median()
+median
+
+#Mode
+mode1=df['Salary'].mode()
+mode1
+
+countrywise_sum=df.groupby(['Country'])['Salary'].sum()
+countrywise_sum
+
+countrywise_count=df.groupby(['Country']).count()
+countrywise_count
+
+"""Measure of variability"""
+
+#variance of salaries
+var1=df['Salary'].var()
+var1
+
+#standard deviation
+std1=df['Salary'].std()
+std1
+
+"""Measure of Symmetry"""
+
+skew1=df.skew(axis=0, skipna=True)
+skew1
+
+#The skewness is positive so x will have right side tail.
+
+df.describe()
+
+P8 (HYPOTHESIS TESTING)
+
+"""P8DS_Hypothesis Testing.ipynb
+
+Automatically generated by Colaboratory.
+
+Original file is located at
+    https://colab.research.google.com/drive/1cZPyRdv53GPcoWRAoVNDuIvMeGxlLcuw
+"""
+
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+import scipy.stats as stats
+from scipy.stats import ttest_1samp
+from statsmodels.stats.power import tt_ind_solve_power
+
+ages=[10,20,35,50,28,40,55,18,16,55,30,25,43,18,30,28,14,24,16,17,32,35,26,27,65,18,43,23,21,20,19,70]
+
+ages_mean=np.mean(ages)
+print(ages_mean)
+
+#Lets take sample
+sample_size=10
+age_sample=np.random.choice(ages,sample_size)
+age_sample
+
+from scipy.stats import ttest_1samp
+
+ttest,p_value=ttest_1samp(age_sample,30)
+
+print(p_value)
+
+if p_value < 0.05:
+    print("We are rejecting null hypothesis")
+else:
+    print("We are accepting null hypothesis")
+
+</pre
+    >
+  </body>
+</html>
